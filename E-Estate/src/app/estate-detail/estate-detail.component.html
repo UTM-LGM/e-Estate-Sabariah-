@@ -1,0 +1,145 @@
+<div *ngIf="isLoading">
+  <ngx-skeleton-loader appearance="line" animation="progress-dark" [theme]="{height:'50px'}"> </ngx-skeleton-loader>
+</div>
+
+<div class="box-container" *ngIf="!isLoading">
+  <h1>{{ estate.estateName }}</h1>
+  <hr />
+
+  <button (click)="status(estate)" style="float: right"
+    [ngClass]="{
+      'active-btn': estate.isActive == true,
+      'inactive-btn': estate.isActive == false
+    }">
+    {{ estate.isActive == true ? "Active" : "inActive" }}
+  </button>
+
+  <div style="overflow-x: auto;">
+  <table>
+    <tr>
+      <td>Estate Name</td>
+      <td><span>:</span></td>
+      <td>{{ estate.estateName }}</td>
+
+      <td class="rightForm">Email</td>
+      <td><span>:</span></td>
+      <td>{{ estate.email }}</td>
+    </tr>
+
+    <tr>
+      <td>Address</td>
+      <td><span>:</span></td>
+      <td>
+        {{ estate.address1 }}, {{ estate.address2 }}, {{ estate.address3 }}
+      </td>
+
+      <td class="rightForm">License No</td>
+      <td><span>:</span></td>
+      <td>{{ estate.licenseNo }}</td>
+    </tr>
+
+    <tr>
+      <td>Postcode</td>
+      <td><span>:</span></td>
+      <td>{{ estate.postcode }}</td>
+
+      <td class="rightForm">Total Area (Ha)</td>
+      <td><span>:</span></td>
+      <td>{{ estate.totalArea }}</td>
+    </tr>
+
+    <tr>
+      <td>Town</td>
+      <td><span>:</span></td>
+      <td>{{ estate.town }}</td>
+
+      <td class="rightForm">Financial Year Range</td>
+      <td><span>:</span></td>
+      <td>{{ estate.financialYear }}</td>
+    </tr>
+
+    <tr>
+      <td>State</td>
+      <td><span>:</span></td>
+      <td>{{ estate.state }}</td>
+
+      <td class="rightForm">Establishment Name</td>
+      <td><span>:</span></td>
+      <td>{{ estate.establishment }}</td>
+    </tr>
+
+    <tr>
+      <td>Phone No</td>
+      <td><span>:</span></td>
+      <td>{{ estate.phone }}</td>
+
+      <td class="rightForm">Membership Type</td>
+      <td><span>:</span></td>
+      <td>{{ estate.membership }}</td>
+    </tr>
+
+    <tr>
+      <td>Fax No</td>
+      <td><span>:</span></td>
+      <td>{{ estate.fax }}</td>
+    </tr>
+  </table>
+</div>
+
+  <br />
+
+  <div class="box-container">
+    <h1>List of Fields</h1>
+    <hr />
+    <button style="margin-bottom: 10px" class="btn-add" routerLink="/e-estate/field-info">
+      Add New Field <i class="fa fa-plus"></i>
+    </button>
+    <br />
+    <div style="overflow-x: auto">
+      <table>
+        <tr>
+          <th class="th">Field / Block</th>
+          <th class="th">Field Area (Ha)</th>
+          <th class="th">Maturity</th>
+          <th class="th">Crop Category</th>
+          <th class="th">Other Crop</th>
+          <th class="th">Year Planted</th>
+          <th class="th">Date Open Tapping</th>
+          <th class="th">Status</th>
+        </tr>
+
+        <tr class="list" *ngFor="let fields of estate.fields | paginate: { itemsPerPage: 10, currentPage: pageNumber }"  routerLink="/e-estate/field-detail/{{ fields.id }}">
+          <td class="td">{{ fields.fieldName }}</td>
+          <td class="td">{{ fields.area }}</td>
+          <td class="td">
+            {{ fields.isMature == true ? "Mature" : "Immature" }}
+          </td>
+          <td class="td">{{ estate.cropCategory }}</td>
+          <td class="td">{{ fields.otherCrop }}</td>
+          <td class="td">{{ fields.yearPlanted }}</td>
+          <td class="td">{{ fields.dateOpenTapping | date : "dd/MM/YYYY" }}</td>
+          <td class="td">
+            <button style="pointer-events: none"
+              [ngClass]="{
+                'active-btn': fields.isActive == true,
+                'inactive-btn': fields.isActive == false
+              }">
+              {{ fields.isActive == true ? "Active" : "inActive" }}
+            </button>
+          </td>
+        </tr>
+        
+      </table>
+
+      <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+
+    </div>
+  </div>
+  <br />
+
+  <div>
+    <button class="btn-back" (click)="back()">
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+  </div>
+</div>

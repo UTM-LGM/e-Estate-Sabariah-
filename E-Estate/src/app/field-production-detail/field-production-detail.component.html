@@ -1,0 +1,47 @@
+<br />
+<h1 style="padding-left: 17px">{{ product.fieldName }}</h1>
+
+<div style="overflow-x: auto; padding: 10px">
+  <table style="width: 100%">
+    <tr>
+      <th>Cuplump Production (Kg)</th>
+      <th>Cuplump DRC (%)</th>
+      <th>Latex Production (Kg)</th>
+      <th>Latex DRC (%)</th>
+      <th>No of Task Tap</th>
+      <th>No of Task UnTap</th>
+    </tr>
+
+    <tr>
+      <td>
+        <input type="number" name="cuplump" [(ngModel)]="product.cuplump" />
+      </td>
+      <td>
+        <input type="number" name="cuplumpDRC" [(ngModel)]="product.cuplumpDRC"/>
+      </td>
+      <td><input type="number" name="latex" [(ngModel)]="product.latex" /></td>
+      <td>
+        <input type="number" name="latexDRC" [(ngModel)]="product.latexDRC" />
+      </td>
+      <td>
+        <input type="number" name="noTaskTap" [(ngModel)]="product.noTaskTap" />
+      </td>
+      <td>
+        <input type="number" name="noTaskUntap" [(ngModel)]="product.noTaskUntap"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<br />
+<div style="padding-right: 10px">
+  <button style="float: right" class="btn-update" type="submit" (click)="update()">
+    Update <i class="fa fa-pencil"></i>
+  </button>
+</div>
+<div style="padding-left: 10px">
+  <button class="btn-back" (click)="back()">
+    <i class="fa fa-arrow-left"></i> Back
+  </button>
+</div>
+<br />
+<br />

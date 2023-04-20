@@ -1,0 +1,181 @@
+<div *ngIf="isLoading">
+  <ngx-skeleton-loader appearance="line" animation="progress-dark" [theme]="{height:'50px'}"> </ngx-skeleton-loader>
+</div>
+
+<div class="box-container" *ngIf="!isLoading">
+  <h1>{{ company.companyName }}</h1>
+  <hr />
+
+  <button (click)="status(company)" style="float: right"
+    [ngClass]="{
+      'active-btn': company.isActive == true,
+      'inactive-btn': company.isActive == false
+    }"
+    [attr.buttonName]="company.isActive ? 'buttonCompanyActive' : 'buttonCompanyInactive'">
+    {{ company.isActive == true ? "Active" : "inActive" }}
+  </button>
+
+  <table>
+    <tr>
+      <td class="detail">Company Name</td>
+      <td class="detail"><span>:</span></td>
+      <td class="detail">{{ company.companyName }}</td>
+    </tr>
+
+    <tr>
+      <td class="detail">Address</td>
+      <td class="detail"><span>:</span></td>
+      <td class="detail">
+        {{ company.address1 }}, {{ company.address2 }}, {{ company.address3 }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="detail">Postcode</td>
+      <td class="detail"><span>:</span></td>
+      <td class="detail">{{ company.postcode }}</td>
+    </tr>
+
+    <tr>
+      <td class="detail">Town</td>
+      <td class="detail"><span>:</span></td>
+      <td class="detail">{{ company.town }}</td>
+    </tr>
+
+    <tr>
+      <td class="detail">Phone No</td>
+      <td class="detail"><span>:</span></td>
+      <td class="detail">{{ company.phone }}</td>
+    </tr>
+
+    <tr>
+      <td class="detail">Fax No</td>
+      <td class="detail"><span>:</span></td>
+      <td class="detail">{{ company.fax }}</td>
+    </tr>
+
+    <tr>
+      <td class="detail">Email</td>
+      <td class="detail"><span>:</span></td>
+      <td class="detail">{{ company.email }}</td>
+    </tr>
+
+    <tr>
+      <td class="detail">Manager Contact No</td>
+      <td class="detail"><span>:</span></td>
+      <td class="detail">{{ company.contactNo }}</td>
+    </tr>
+
+    <tr>
+      <td class="detail">Manager Name</td>
+      <td class="detail"><span>:</span></td>
+      <td class="detail">{{ company.managerName }}</td>
+    </tr>
+  </table>
+  <br />
+
+  <div class="box-container">
+    <h1>List of Estates</h1>
+    <hr />
+    <button style="margin-bottom: 10px" class="btn-add" routerLink="/e-estate/add-estate/{{company.id}}">
+      Add New Estate <i class="fa fa-plus"></i>
+    </button>
+
+  <input type="text" [(ngModel)]="term" placeholder="Filter Estates" />
+    <div style="overflow-x: auto">
+      <table style="width: 100%">
+        <thead>
+          <tr>
+            <th>Estate Name</th>
+            <th>Town</th>
+            <th>Email</th>
+            <th>License No</th>
+            <th>Total Area (Ha)</th>
+            <th>Membership Type</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tr *ngIf="isLoading">
+          <td colspan="7">
+              <ngx-skeleton-loader appearance="line" animation="progress-dark" [theme]="{height:'50px'}"> </ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <tbody *ngFor="let estate of company.estates | filter : term | paginate: { itemsPerPage: 10, currentPage: pageNumber }">
+        <tr class="list" style="cursor: default;">
+          <td>
+            <a routerLink="/e-estate/estate-detail/{{ estate.id }}">{{estate.estateName}}</a>
+          </td>
+          <td>{{ estate.town }}</td>
+          <td style="display: none">{{ estate.townId }}</td>
+          <td>{{ estate.email }}</td>
+          <td>{{ estate.licenseNo }}</td>
+          <td>{{ estate.totalArea }}</td>
+          <td>{{ estate.membership }}</td>
+          <td>
+            <button style="cursor: pointer;" (click)="statusEstate(estate.id)"
+              [ngClass]="{
+                'active-btn': estate.isActive == true,
+                'inactive-btn': estate.isActive == false
+              }">
+              {{ estate.isActive == true ? "Active" : "inActive" }}
+            </button>
+          </td>
+          <td *ngIf="selectedEstate !== estate"><i class="fa fa-chevron-down" style="cursor:pointer" (click)="toggleSelectedEstate(estate)"></i></td>
+          <td *ngIf="selectedEstate === estate"><i class="fa fa-chevron-up" style="cursor:pointer" (click)="toggleSelectedEstate(estate)"></i></td>
+        </tr>
+        <tr *ngIf="selectedEstate === estate">
+          <td colspan="8" style="background-color: antiquewhite;">
+            <table style="width: 100%">
+              <tr>
+                <th class="th">Field / Block</th>
+                <th class="th">Field Area (Ha)</th>
+                <th class="th">Maturity</th>
+                <th class="th">Crop Category</th>
+                <th class="th">Other Crop</th>
+                <th class="th">Year Planted</th>
+                <th class="th">Date Open Tapping</th>
+                <th class="th">Status</th>
+              </tr>
+
+              <tr *ngFor="let fields of estate.fields | paginate: { itemsPerPage: 10, currentPage: pageNumber }">
+                <td class="td">{{ fields.fieldName }}</td>
+                <td class="td">{{ fields.area }}</td>
+                <td class="td">
+                  {{ fields.isMature == true ? "Mature" : "Immature" }}
+                </td>
+                <td class="td">{{ fields.cropCategory }}</td>
+                <td class="td">{{ fields.otherCrop }}</td>
+                <td class="td">{{ fields.yearPlanted }}</td>
+                <td class="td">{{ fields.dateOpenTapping | date : "dd/MM/YYYY" }}</td>
+                <td class="td">
+                  <button style="cursor: pointer;" (click)="statusField(fields.id)"
+                    [ngClass]="{
+                      'active-btn': fields.isActive == true,
+                      'inactive-btn': fields.isActive == false
+                    }">
+                    {{ fields.isActive == true ? "Active" : "inActive" }}
+                  </button>
+                </td>
+              </tr>
+              
+            </table>
+          </td>
+        </tr>
+      </tbody>
+      </table>
+
+      <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+
+    </div>
+  </div>
+  <br />
+
+  <div>
+    <button class="btn-back" (click)="back()">
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+  </div>
+</div>

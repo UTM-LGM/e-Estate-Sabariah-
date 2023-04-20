@@ -1,0 +1,12 @@
+.span {
+  font-size: 12px;
+  margin: auto;
+}
+
+::ng-deep .mat-toolbar-row {
+  width: auto !important;
+}
+
+.mat-toolbar-row {
+  height: 86px;
+}

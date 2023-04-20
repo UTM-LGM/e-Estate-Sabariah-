@@ -1,0 +1,51 @@
+<div class="box-container">
+  <h1>List of Estates</h1>
+  <hr />
+
+  <input type="text" [(ngModel)]="term" placeholder="Filter Estate" />
+
+  <div *ngIf="isLoading">
+    <ngx-skeleton-loader appearance="line" animation="progress-dark" [theme]="{height:'50px'}"> </ngx-skeleton-loader>
+  </div>
+
+  <div class="column">
+    <div class="box-container list" *ngFor="let estate of estates | filter : term | paginate: { itemsPerPage: 10, currentPage: pageNumber }" routerLink="/e-estate/estate-detail/{{ estate.id }}">
+      <h3>
+        <a>
+          {{estate.estateName}}</a>
+      </h3>
+      <table>
+        <tr>
+          <td>Address</td>
+          <td><span>:</span></td>
+          <td>
+            {{ estate.address1 }}, {{ estate.address2 }}, {{ estate.address3 }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Postcode</td>
+          <td><span>:</span></td>
+          <td>{{ estate.postcode }}</td>
+        </tr>
+
+        <tr>
+          <td>Town</td>
+          <td><span>:</span></td>
+          <td>{{ estate.town }}</td>
+        </tr>
+      </table>
+      <button style="float: right; pointer-events: none" disabled
+        [ngClass]="{
+          'active-btn': estate.isActive == true,
+          'inactive-btn': estate.isActive == false
+        }"
+      >
+        {{ estate.isActive == true ? "Active" : "inActive" }}</button
+      ><br />
+    </div>
+  </div>
+
+  <pagination-controls  (pageChange)="pageNumber = $event"></pagination-controls>
+
+</div>

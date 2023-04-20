@@ -1,0 +1,10 @@
+label {
+  font-size: 15px;
+  flex-basis: 155px;
+}
+
+form {
+  display: flex;
+  align-items: center;
+}
+

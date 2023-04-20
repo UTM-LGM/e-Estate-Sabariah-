@@ -1,0 +1,26 @@
+<div class="box-container">
+  <div *ngIf="activeButton === 1">
+    <h1>Ladang Getah Ampang (Direct Cost)</h1>
+  </div>
+  <div *ngIf="activeButton === 2">
+    <h1>Ladang Getah Ampang (Indirect Cost)</h1>
+  </div>
+  <hr />
+
+  <div style="columns: 2; width: 225px;">
+    <button class="btn" [ngClass]="{ active: activeButton === 1 }" (click)="setActiveButton(1)">
+      Direct
+    </button>
+    <button class="btn" [ngClass]="{ active: activeButton === 2 }" (click)="setActiveButton(2)">
+      Indirect
+    </button>
+  </div>
+
+  <div *ngIf="activeButton === 1">
+    <app-direct-cost></app-direct-cost>
+  </div>
+
+  <div *ngIf="activeButton === 2">
+    <app-indirect-cost></app-indirect-cost>
+  </div>
+</div>

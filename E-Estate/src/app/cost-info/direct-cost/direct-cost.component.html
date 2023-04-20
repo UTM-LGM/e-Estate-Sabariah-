@@ -1,0 +1,125 @@
+<mat-tab-group>
+  <mat-tab label="Mature">
+    <div class="year">
+      <p style="padding-right: 50px;">Year:</p>
+      <input type="number" style="width: 10%; text-align: center;" placeholder="yyyy" (change)="yearMature()" [(ngModel)]="matureYear" />
+    </div>
+
+    <div *ngIf="filterMatureDirectCostAmount.length == 0 && yearSelectedMature">
+      <div *ngFor="let cat of costCategories">
+        <h1>Category : {{ cat.costCategory }}</h1>
+        <table class="table">
+          <tr>
+            <th>Subcategory Item 1</th>
+            <th>Subcategory Item 2</th>
+            <th>Amount(RM)</th>
+          </tr>
+ 
+          <ng-container *ngFor="let sub of subCategories1; let i=index">
+            <tr *ngIf="sub.costCategoryId == cat.costCategoryId">
+              <td *ngIf="i == 0 || sub.costSubcategory1 != subCategories1[i - 1].costSubcategory1" [attr.rowspan]="filterId.length" class="td" >{{sub.costSubcategory1}}</td>
+              <td class="td">{{sub.costSubcategory2}}</td>
+              <td class="td"><input class="amount" type="number" placeholder="0.00" [(ngModel)]="sub.amount" (input)="calculateTotalMatureAmount()" /></td>
+            </tr>
+          </ng-container>
+
+          
+
+        </table>
+      </div>
+      <table class="table" >
+        <tr>
+          <th colspan="2">Total Amount (RM):</th>
+          <th>{{totalMatureAmount | number: '1.2-2'}}</th>
+        </tr>
+      </table>
+
+      <br />
+      <button (click)="addMatureCost()" style="float: right" class="btn-add" type="submit">
+        Add <i class="fa fa-plus"></i>
+      </button>
+    </div>
+
+    <div *ngIf="filterMatureDirectCostAmount.length != 0 && yearSelectedMature">
+      <table class="table">
+        <tr>
+          <th>No</th>
+          <th>Year</th>
+          <th>Subcategory 1 Item</th>
+          <th>Subcategory 2 Item</th>
+          <th>Amount (RM)</th>
+        </tr>
+        <tr *ngFor="let amount of filterMatureDirectCostAmount; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{amount.year}}</td>
+          <ng-container *ngFor="let cost of amount.costs">
+            <td>{{cost.costSubcategory1}}</td>
+            <td>{{cost.costSubcategory2}}</td> 
+          </ng-container> 
+          <td>{{amount.amount | number: '1.2-2'}}</td>
+        </tr>
+        <tr>
+          <th colspan="4">Total Amount (RM):</th>
+          <th>
+            {{totalMatureCostAmount | number: '1.2-2'}}
+          </th>
+        </tr>
+      </table>
+  </div>
+  </mat-tab>
+
+  <mat-tab label="Immature">
+    <div class="year">
+      <p style="padding-right: 50px;">Year:</p>
+      <input type="number" style="width: 10%;text-align: center;" placeholder="yyyy" (change)="yearImmature()" [(ngModel)]="immatureYear" />
+    </div>
+
+    <div *ngIf="filterImmatureDirectCostAmount.length == 0 && yearSelectedImmature">
+      <table class="table">
+        <tr>
+          <th>No</th>
+          <th>Category Item</th>
+          <th>Amount (RM)</th>
+        </tr>
+        <tr *ngFor="let sub of subCategories2IM; let i = index">
+          <td class="td">{{ i + 1 }}</td>
+          <td class="td">{{ sub.costSubcategory2 }}</td>
+          <td class="td"><input class="amount" type="number" placeholder="0.00" [(ngModel)]="subCategories2IM[i].amount" (input)="calculateTotalImmatureAmount()" /></td>
+        </tr>
+        <tr>
+          <th colspan="2">Total Amount (RM):</th>
+          <th>{{totalImmatureAmount | number: '1.2-2'}}</th>
+        </tr>
+      </table>
+
+      <button (click)="addImmmatureCost()" style="float: right" class="btn-add" type="submit">
+        Add <i class="fa fa-plus"></i>
+      </button>
+    </div>
+
+    <div *ngIf="filterImmatureDirectCostAmount.length != 0 && yearSelectedImmature">
+    <table class="table">
+      <tr>
+        <th>No</th>
+        <th>Year</th>
+        <th>Category Item</th>
+        <th>Amount (RM)</th>
+      </tr>
+      <tr *ngFor="let amount of filterImmatureDirectCostAmount; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{amount.year}}</td>
+        <ng-container *ngFor="let cost of amount.costs">
+          <td>{{cost.costSubcategory2}}</td> 
+        </ng-container> 
+        <td>{{amount.amount | number: '1.2-2'}}</td>
+      </tr>
+      <tr>
+        <th colspan="3">Total Amount (RM):</th>
+        <th>
+          {{totalImmatureCostAmount | number: '1.2-2'}}
+        </th>
+      </tr>
+    </table>
+</div>
+  </mat-tab>
+</mat-tab-group>

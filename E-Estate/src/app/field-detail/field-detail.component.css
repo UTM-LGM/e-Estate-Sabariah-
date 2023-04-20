@@ -1,0 +1,27 @@
+label {
+  font-size: 12px;
+}
+
+input {
+  font-size: 12px;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+}
+
+.column {
+  width: 60%;
+  margin: 0 10px;
+}
+
+.columnTable {
+  width: 40%;
+  margin: 0 10px;
+}
+
+.box {
+  display: flex;
+  justify-content: left;
+}

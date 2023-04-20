@@ -1,0 +1,94 @@
+<div class="box-container">
+  <div class="box">
+    <div class="column">
+      <h1>
+        {{ fields.fieldName }}
+        <button style="float: right" (click)="status(fields)"
+          [ngClass]="{
+            'active-btn': fields.isActive == true,
+            'inactive-btn': fields.isActive == false
+          }">
+          {{ fields.isActive == true ? "Active" : "inActive" }}
+        </button>
+      </h1>
+      <hr />
+      <div>
+        <div style="columns: 2">
+          <label>Field / Block :</label>
+          <input type="text" name="fieldname" value="{{ fields.fieldName }}" [(ngModel)]="fields.fieldName"/>
+          <label>Field Area (Ha) :</label>
+          <input type="text" name="area" value="{{ fields.area }}" [(ngModel)]="fields.area"/>
+        </div>
+
+        <div style="columns: 2">
+          <label>Maturity :</label>
+          <select name="maturity" [(ngModel)]="fields.isMature" (change)="getcategory($event)">
+            <option [ngValue]="true">Mature</option>
+            <option [ngValue]="false">Immature</option>
+          </select>
+          <label>Crop Category :</label>
+          <select name="cropCat" [(ngModel)]="fields.cropCategoryId">
+            <option *ngFor="let category of filterStatus" value="{{ category.id }}">
+              {{ category.cropCategory }}
+            </option>
+          </select>
+        </div>
+
+        <div style="columns: 2">
+          <label>Crop Category (if others)</label>
+          <input name="others" type="text" [(ngModel)]="fields.otherCrop" />
+          <div style="columns: 2">
+            <label>Clone :</label>
+            <select name="clone" [(ngModel)]="fields.cloneId">
+              <option value="0" disabled selected>Please Choose</option>
+              <option *ngFor="let clone of availableClones" value="{{ clone.id }}">
+                {{ clone.cloneName }}
+              </option>
+            </select>
+            <div>
+              <button style="margin-top: 28px" class="btn-add" (click)="addClone(fields)">
+                Add Clone <i class="fa fa-pencil"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style="columns: 2">
+          <label>Year Planted :</label>
+          <b><input type="number" name="year" [(ngModel)]="fields.yearPlanted"/></b>
+          <label>Date Open Tapping :</label>
+          <input name="dateopentapping" type="date" [(ngModel)]="fields.dateOpenTapping"/>
+        </div>
+        <div style="margin-top: 10px">
+          <button style="float: right" class="btn-update" type="submit" (click)="updateField(fields)">
+            Update <i class="fa fa-pencil"></i>
+          </button>
+          <button class="btn-back" (click)="back()">
+            <i class="fa fa-arrow-left"></i> Back
+          </button>
+        </div>
+        <br /><br />
+      </div>
+    </div>
+    <div class="columnTable box-container">
+      <h1>Clones planted</h1>
+      <hr />
+      <div style="overflow-x: auto">
+        <table style="width: 100%">
+          <tr>
+            <th>No</th>
+            <th>Clone Name</th>
+            <th>Action</th>
+          </tr>
+          <tr *ngFor="let clone of fieldClones, let i=index">
+                <td>{{i+1}}</td>
+                <td>{{clone.cloneName}}</td>
+                <td><button class="btn-del" (click)="delete(clone.id, fields.id)" ><i class="fa fa-trash"></i></button>
+            </td>
+            </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <br />
+</div>

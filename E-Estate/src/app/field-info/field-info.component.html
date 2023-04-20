@@ -1,0 +1,137 @@
+<div class="box-container">
+  <div class="box">
+    <div class="column">
+      <h1>Ladang Getah Ampang</h1>
+      <hr />
+      <form>
+        <div style="columns: 2">
+          <label>Field / Block :</label>
+          <b><input type="text" name="fieldname" [(ngModel)]="field.fieldName"/></b>
+          <label>Field Area (Ha) :</label>
+          <b><input type="text" name="fieldarea" [(ngModel)]="field.area" /></b>
+        </div>
+        <div style="columns: 2">
+          <label>Maturity :</label>
+          <select name="maturity" [(ngModel)]="field.isMature" (change)="getcategory($event)">
+            <option value="" disabled selected>Please Choose</option>
+            <option [ngValue]="true">Mature</option>
+            <option [ngValue]="false">Immature</option>
+          </select>
+          <label>Crop Category :</label>
+          <select name="cropCat" [(ngModel)]="field.cropCategoryId">
+            <option value="0" disabled selected>Please Choose</option>
+            <option *ngFor="let category of filterCropStatus" value="{{ category.id }}">
+              {{ category.cropCategory }}
+            </option>
+          </select>
+        </div>
+
+        <div style="columns: 2">
+          <label>Crop Category (if others)</label>
+          <input name="others" type="text" [(ngModel)]="field.otherCrop" />
+          <div style="columns: 2">
+            <label>Clone :</label>
+            <select name="clone" [(ngModel)]="field.cloneId">
+              <option value="0" disabled selected>Please Choose</option>
+              <option *ngFor="let clone of availableClones" value="{{ clone.id }}">
+                {{ clone.cloneName }}
+              </option>
+            </select>
+            <div>
+              <button style="margin-top: 28px" class="btn-add" (click)="selectedClone(field)">
+                Add Clone <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div style="columns: 2">
+          <label>Year Planted :</label>
+          <b><input type="number" name="year" [(ngModel)]="field.yearPlanted"/></b>
+          <label>Date Open Tapping :</label>
+          <input name="dateopentapping" type="date" [(ngModel)]="field.dateOpenTapping"/>
+        </div>
+
+        <div style="margin-top: 10px">
+          <button style="float: right" class="btn-add" type="submit" (click)="onSubmit()">
+            Add <i class="fa fa-plus"></i>
+          </button>
+        </div>
+
+      </form>
+    </div>
+    <div class="columnTable box-container">
+      <h1>Clones planted</h1>
+      <hr />
+      <div style="overflow-x: auto; overflow-y: auto">
+        <table style="width: 100%">
+          <tr>
+            <th>No</th>
+            <th>Clone Name</th>
+            <th>Action</th>
+          </tr>
+          <tr *ngFor="let value of selectedValues; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ value.cloneName }}</td>
+            <td>
+              <button class="btn-del" (click)="delete(i)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <br />
+
+  <div class="box-container">
+    <h1>List of fields</h1>
+    <hr />
+    <label><b>Total Area : {{ total }} Ha</b></label>
+    <div style="overflow-x: auto">
+      <table style="width: 100%">
+        <tr>
+          <th>Field / Block</th>
+          <th>Field Area (Ha)</th>
+          <th>Maturity</th>
+          <th>Crop Category</th>
+          <th>Other Crop</th>
+          <th>Year Planted</th>
+          <th>Date Open Tapping</th>
+          <th>Status</th>
+        </tr>
+
+        <tr *ngIf="isLoading">
+          <td colspan="8">
+              <ngx-skeleton-loader appearance="line" animation="progress-dark" [theme]="{height:'50px'}"> </ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <tr class="list" *ngFor="let field of fields | paginate: { itemsPerPage: 10, currentPage: pageNumber }" routerLink="/e-estate/field-detail/{{ field.id }}">
+          <td>
+            <a>
+              {{field.fieldName}}</a>
+          </td>
+          <td>{{ field.area }}</td>
+          <td>{{ field.isMature == true ? "Mature" : "Immature" }}</td>
+          <td>{{ field.cropCategory }}</td>
+          <td>{{ field.otherCrop }}</td>
+          <td>{{ field.yearPlanted }}</td>
+          <td>{{ field.dateOpenTapping | date : "dd/MM/YYYY" }}</td>
+          <td>
+            <button style="pointer-events: none"
+              [ngClass]="{
+                'active-btn': field.isActive == true,
+                'inactive-btn': field.isActive == false
+              }">
+              {{ field.isActive == true ? "Active" : "inActive" }}
+            </button>
+          </td>
+        </tr>
+      </table>
+
+      <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+
+    </div>
+  </div>
+</div>

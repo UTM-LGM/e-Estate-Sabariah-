@@ -1,0 +1,84 @@
+<div class="box-container">
+  <h1>Ladang Getah Ampang</h1>
+  <hr />
+  <div class="monthYear">
+    <p style="padding-right: 40px; margin-top: 15px;">Month and Year:</p>
+    <input type="month"  #month value="{{ previousMonth | date : 'YYY-MM' }}" (change)="monthSelected(month.value)"/>
+  </div>
+
+  <br />
+  <div style="overflow-x: auto" *ngIf="filterProductions.length == 0">
+    <div *ngIf="products.length > 0">
+    <table style="width: 100%">
+      <tr>
+        <th>Field Name</th>
+        <th>Cuplump Production (Kg)</th>
+        <th>Cuplump DRC (%)</th>
+        <th>Latex Production (Kg)</th>
+        <th>Latex DRC (%)</th>
+        <th>No of Task Tap</th>
+        <th>No of Task UnTap</th>
+      </tr>
+
+      
+      <tr *ngFor="let field of filterFields; let i = index">
+        <td class="td">{{ field.fieldName }}</td>
+        <td class="td"><input type="number" name="cuplump" [(ngModel)]="products[i].cuplump"/></td>
+        <td class="td"><input type="number" name="cuplumpDRC" [(ngModel)]="products[i].cuplumpDRC" step="0.01"/></td>
+        <td class="td"><input type="number" name="latex" [(ngModel)]="products[i].latex" /></td>
+        <td class="td"><input type="number" name="latexDRC" [(ngModel)]="products[i].latexDRC"/></td>
+        <td class="td"><input type="number" name="noTaskTap" [(ngModel)]="products[i].noTaskTap"/></td>
+        <td class="td"><input type="number" name="noTaskUntap" [(ngModel)]="products[i].noTaskUntap"/></td>
+      </tr>
+    </table>
+  </div>
+  </div>
+  
+  <div *ngIf="filterProductions.length == 0">
+    <button style="float: right" class="btn-add" type="submit" (click)="add()">
+      Add <i class="fa fa-plus"></i>
+    </button>
+    <br />
+    <br />
+  </div>
+
+  <div class="card" *ngIf="filterProductions.length != 0">
+    <div style="text-align: center; overflow-x: auto">
+      <table style="width: 100%">
+        <tr>
+          <th>Month and Year</th>
+          <th>Field Name</th>
+          <th>Cuplump Production (Kg)</th>
+          <th>Cuplump DRC (%)</th>                                                         
+          <th>Cuplump Dry (kg)</th>
+          <th>Latex (Kg)</th>
+          <th>Latex DRC (%)</th>
+          <th>Latex Dry (Kg)</th>
+          <th>Total Crop (Kg)</th>
+          <th>No of Task Tap</th>
+          <th>No of Task Uptap</th>
+          <th>Action</th>
+        </tr>
+
+        <tr *ngFor="let product of filterProductions; index as i">
+          <td >{{ product.monthYear | date : "MMM-yyyy" }}</td>
+          <td >{{ product.fieldName }}</td>
+          <td >{{ product.cuplump }}</td>
+          <td >{{ product.cuplumpDRC | number : "1.2-2" }}</td>
+          <td >{{ cuplump[i]}}</td>
+          <td >{{ product.latex }}</td>
+          <td >{{ product.latexDRC | number : "1.2-2" }}</td>
+          <td >{{ latex[i]}}</td>
+          <td >{{ total[i] | number:'1.0-0'}}</td>
+          <td >{{ product.noTaskTap }}</td>
+          <td >{{ product.noTaskUntap }}</td>
+          <td>
+            <button class="btn-update" (click)="openDialog(product)" [disabled]="currentDate.getDate() > 15">
+              <i class="fa fa fa-pencil"></i>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

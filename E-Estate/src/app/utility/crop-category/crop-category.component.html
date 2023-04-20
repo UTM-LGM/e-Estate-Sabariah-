@@ -1,0 +1,56 @@
+<br />
+<h1>Crop Category Utility</h1>
+<form>
+  <label>Maturity : </label>
+  <select name="maturity" [(ngModel)]="crop.isMature">
+    <option value="0" disabled selected>Please Choose</option>
+    <option [ngValue]="true">Mature</option>
+    <option [ngValue]="false">Immature</option>
+  </select>
+  <label>Crop Category : </label>
+  <input type="text" name="crop" [(ngModel)]="crop.cropCategory" />
+</form>
+
+<button style="float: right" class="btn-add" (click)="submit()">
+  Add <i class="fa fa-plus"></i>
+</button>
+
+<br /><br />
+<hr />
+
+<h1>List of Crop Category</h1>
+<div class="box-container">
+  <input type="text" [(ngModel)]="term" placeholder="Filter Crop Category" />
+  <table style="width: 100%">
+    <tr>
+      <th>No</th>
+      <th>Maturity</th>
+      <th>Crop Category</th>
+      <th>Action</th>
+    </tr>
+
+    <tr *ngIf="isLoading">
+      <td colspan="4">
+          <ngx-skeleton-loader appearance="line" animation="progress-dark" [theme]="{height:'50px'}"> </ngx-skeleton-loader>
+      </td>
+    </tr>
+
+    <tr *ngFor="let crop of cropCategories | filter : term | paginate: { itemsPerPage: 10, currentPage: pageNumber }; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ crop.isMature == true ? "Mature" : "Immature" }}</td>
+      <td>{{ crop.cropCategory }}</td>
+      <td>
+        <button (click)="status(crop.id)"
+          [ngClass]="{
+            'active-btn': crop.isActive == true,
+            'inactive-btn': crop.isActive == false
+          }">
+          {{ crop.isActive == true ? "Active" : "inActive" }}
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+
+</div>

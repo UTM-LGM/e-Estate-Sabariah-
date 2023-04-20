@@ -1,0 +1,91 @@
+<div class="box-container">
+  <h1>Estate Information</h1>
+  <hr />
+
+  <div>
+    <div style="columns: 2" class="column">
+      <label>Estate Name :</label>
+      <input type="text" name="estateName" [(ngModel)]="estate.estateName" />
+      <label>Address 1 :</label>
+      <input type="text" name="address1" [(ngModel)]="estate.address1" />
+    </div>
+    <div style="columns: 2">
+      <label>Address 2 :</label>
+      <input type="text" name="address2" [(ngModel)]="estate.address2" />
+      <label>Address 3 :</label>
+      <input type="text" name="address3" [(ngModel)]="estate.address3" />
+    </div>
+    <div style="columns: 2">
+      <label>Postcode : </label>
+      <input type="text" name="postcode" [(ngModel)]="estate.postcode" />
+      <label>State : </label>
+      <select name="state" [(ngModel)]="estate.stateId" (change)="gettown($event)">
+        <option value="0" disabled selected>Please Choose</option>
+        <option *ngFor="let state of filterStates" value="{{ state.id }}">
+          {{ state.state }}
+        </option>
+      </select>
+    </div>
+    <div style="columns: 2">
+      <label>Town :</label>
+      <select name="town" [(ngModel)]="estate.townId">
+        <option value="0" disabled selected>Please Choose</option>
+        <option *ngFor="let town of filterTowns" value="{{ town.id }}">
+          {{ town.town }}
+        </option>
+      </select>
+      <label>License No :</label>
+      <input type="text" name="licenseNo" [(ngModel)]="estate.licenseNo" />
+    </div>
+    <div style="columns: 2">
+      <label>Total Area (Ha) :</label>
+      <input type="text" name="totalArea" [(ngModel)]="estate.totalArea" />
+      <label>Financial Year :</label>
+      <select name="FiancialYear" [(ngModel)]="estate.financialYearId">
+        <option value="0" disabled selected>Please Choose</option>
+        <option *ngFor="let financialYear of filterFinancialYears" value="{{ financialYear.id }}">
+          {{ financialYear.financialYear }}
+        </option>
+      </select>
+    </div>
+    <div style="columns: 2">
+      <label>Membership :</label>
+      <select name="membership" [(ngModel)]="estate.membershipTypeId">
+        <option value="0" disabled selected>Please Choose</option>
+        <option *ngFor="let membership of filterMemberships" value="{{ membership.id }}">
+          {{ membership.membershipType }}
+        </option>
+      </select>
+      <label>Establishment :</label>
+      <select name="establishment" [(ngModel)]="estate.establishmentId">
+        <option value="0" disabled selected>Please Choose</option>
+        <option *ngFor="let establishment of filterEstablishments" value="{{ establishment.id }}">
+          {{ establishment.establishment }}
+        </option>
+      </select>
+    </div>
+    <div style="columns: 2">
+      <label>Email :</label>
+      <input type="text" name="email" [(ngModel)]="estate.email" />
+      <label>Phone :</label>
+      <input type="text" name="phone" [(ngModel)]="estate.phone" />
+    </div>
+    <div style="columns: 2">
+      <label>Fax :</label>
+      <input type="text" name="fax" [(ngModel)]="estate.fax" />
+      <label>Name of Estate Manager :</label>
+      <input type="text" name="managerName" [(ngModel)]="estate.managerName" />
+    </div>
+    <div style="margin-top: 10px">
+      <button style="float: right" class="btn-add" (click)="onSubmit()">
+        Add <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <div style="margin-top: 10px">
+      <button class="btn-back" (click)="back()">
+        <i class="fa fa-arrow-left"></i> Back
+      </button>
+    </div>
+  </div>
+
+</div>

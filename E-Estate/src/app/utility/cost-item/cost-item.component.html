@@ -1,0 +1,96 @@
+<br />
+<h1>Cost Item Utility</h1>
+
+<div style="columns: 2">
+  <label>Cost Type : </label>
+  <select name="costType" [(ngModel)]="cost.costTypeId">
+    <option value="0" disabled selected>Please Choose</option>
+    <option *ngFor="let type of filterCostTypes" value="{{ type.id }}">
+      {{ type.costType }}
+    </option>
+  </select>
+  <div *ngIf="cost.costTypeId == 1">
+    <label>Maturity : </label>
+    <select name="maturity" [(ngModel)]="cost.isMature">
+      <option value="0" disabled selected>Please Choose</option>
+      <option [ngValue]="true">Mature</option>
+      <option [ngValue]="false">Immature</option>
+    </select>
+  </div>
+</div>
+
+<div style="columns: 3">
+  <label>Cost Category : </label>
+  <select name="costCat" [(ngModel)]="cost.costCategoryId">
+    <option value="0" disabled selected>Please Choose</option>
+    <option *ngFor="let cat of filterCostCategories" value="{{ cat.id }}">
+      {{ cat.costCategory }}
+    </option>
+  </select>
+  <label>Cost Subcategory 1 : </label>
+  <select name="costSubCat1" [(ngModel)]="cost.costSubcategory1Id">
+    <option value="0" disabled selected>Please Choose</option>
+    <option *ngFor="let sub1 of filterCostSubs1" value="{{ sub1.id }}">
+      {{ sub1.costSubcategory1 }}
+    </option>
+  </select>
+  <label>Cost Subcategory 2 : </label>
+  <select name="costSubCat2" [(ngModel)]="cost.costSubcategory2Id">
+    <option value="0" disabled selected>Please Choose</option>
+    <option *ngFor="let sub2 of filterCostSubs2" value="{{ sub2.id }}">
+      {{ sub2.costSubcategory2 }}
+    </option>
+  </select>
+</div>
+
+<button style="float: right" class="btn-add" (click)="submit()">
+  Add <i class="fa fa-plus"></i>
+</button>
+
+<br /><br />
+<hr />
+
+<h1>List of Cost Item</h1>
+<div class="box-container">
+  <input type="text" [(ngModel)]="term" placeholder="Filter Cost Item" />
+  <div style="overflow-x: auto">
+    <table style="width: 100%">
+      <tr>
+        <th>No</th>
+        <th>Cost Type</th>
+        <th>Maturity</th>
+        <th>Cost Category</th>
+        <th>Cost Subcategory 1</th>
+        <th>Cost Subcategory 2</th>
+        <th>Action</th>
+      </tr>
+
+      <tr *ngIf="isLoading">
+        <td colspan="7">
+            <ngx-skeleton-loader appearance="line" animation="progress-dark" [theme]="{height:'50px'}"> </ngx-skeleton-loader>
+        </td>
+      </tr>
+
+      <tr *ngFor="let cost of costItem | filter : term | paginate: { itemsPerPage: 10, currentPage: pageNumber }; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ cost.costType }}</td>
+        <td>{{ cost.isMature === null ? "" : cost.isMature ? "Mature" : "Immature" }}</td>
+        <td>{{ cost.costCategory }}</td>
+        <td>{{ cost.costSubcategory1 }}</td>
+        <td>{{ cost.costSubcategory2 }}</td>
+        <td>
+          <button (click)="status(cost.id)"
+            [ngClass]="{
+              'active-btn': cost.isActive == true,
+              'inactive-btn': cost.isActive == false
+            }">
+            {{ cost.isActive == true ? "Active" : "inActive" }}
+          </button>
+        </td>
+      </tr>
+    </table>
+
+    <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+    
+  </div>
+</div>

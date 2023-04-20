@@ -1,0 +1,15 @@
+.display {
+  display: block;
+}
+
+.none {
+  display: none;
+}
+
+.active {
+  background-color: rgb(84, 84, 218);
+}
+
+hr {
+  border-color: rgb(100, 96, 96);
+}

@@ -1,0 +1,12 @@
+label {
+  font-size: 12px;
+}
+
+input {
+  font-size: 12px;
+}
+
+.error-snackbar {
+  background-color: #ff0000; 
+  color: #ffffff;
+}
